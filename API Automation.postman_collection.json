@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "296e7e36-c4d0-435e-b883-e85d332cc3c9",
+		"name": "API Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22957919"
+	},
+	"item": [
+		{
+			"name": "Demo APIs",
+			"item": [
+				{
+					"name": "login_seema__dynamic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//TestCase 1\r",
+									"pm.test(\"User successfully login with status code 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//TestCase 2\r",
+									"pm.test(\"Token Extract successfully\", function () {\r",
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"seema_Auth_Token\",\"bearer \"+ data.result.jwtToken);\r",
+									"});\r",
+									"\r",
+									"//TestCase 3\r",
+									"pm.test(\"UUID field is not empty\", function () {\r",
+									"var data = pm.response.json();\r",
+									"if(!Object.keys(data.result.UUid).length){\r",
+									"     console.log(\"no data found\");\r",
+									" }\r",
+									"});\r",
+									"\r",
+									"//TestCase 4\r",
+									"pm.test(\"isOnboarding Extract successfully\", function () {\r",
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"is_On_Boarding\",data.result.isOnboarded);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//TestCase 5\r",
+									"pm.test(\"fname Extract successfully\", function () {\r",
+									"var data = pm.response.json();\r",
+									"pm.environment.set(\"fname\",data.result.fname);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api.qa.jeeny.ai"
+							},
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "origin",
+								"value": "https://web.qa.jeeny.ai"
+							},
+							{
+								"key": "referer",
+								"value": "https://web.qa.jeeny.ai/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Windows\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_Url}}/authenticate/login",
+							"host": [
+								"{{base_Url}}"
+							],
+							"path": [
+								"authenticate",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser_seema_dynamic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//TestCase 1\r",
+									"pm.test(\"User get the profile  with status code 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body matches fname string\", function () {\r",
+									"    var data = pm.response.json();\r",
+									"    var firstname =pm.environment.get('fname');\r",
+									"    pm.expect(data.result[0].profileInfo[0].fname).to.include(firstname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response Body matches UUID string\", function () {\r",
+									"    var data = pm.response.json();\r",
+									"    var user_UUID =pm.environment.get('seema_UUID');\r",
+									"    pm.expect(data.result[0].profileInfo[0].UUid).to.include(user_UUID);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response Body matches isOnboarded string\", function () {\r",
+									"    var data = pm.response.json();\r",
+									"    var user_isOnboarded =pm.environment.get('is_On_Boarding');\r",
+									"    pm.expect(data.result[0].profileInfo[0].isOnboarded).to.include(user_isOnboarded);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response Body matches email string\", function () {\r",
+									"    var data = pm.response.json();\r",
+									"    var user_email =pm.environment.get('email');\r",
+									"    pm.expect(data.result[0].profileInfo[0].email).to.include(user_email);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api.qa.jeeny.ai"
+							},
+							{
+								"key": "accept",
+								"value": "application/json, text/plain, */*"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "authorization",
+								"value": "{{seema_Auth_Token}}"
+							},
+							{
+								"key": "content-type",
+								"value": "application/json"
+							},
+							{
+								"key": "if-none-match",
+								"value": "W/\"351-vdHssWrrMgvI97TfpczUcf2nhgI\"",
+								"disabled": true
+							},
+							{
+								"key": "origin",
+								"value": "https://web.qa.jeeny.ai",
+								"disabled": true
+							},
+							{
+								"key": "referer",
+								"value": "https://web.qa.jeeny.ai/",
+								"disabled": true
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\".Not/A)Brand\";v=\"99\", \"Google Chrome\";v=\"103\", \"Chromium\";v=\"103\"",
+								"disabled": true
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0",
+								"disabled": true
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"Windows\"",
+								"disabled": true
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "empty",
+								"disabled": true
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "cors",
+								"disabled": true
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site",
+								"disabled": true
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{base_Url}}/userProfile/getUser?userId={{UUID}}",
+							"host": [
+								"{{base_Url}}"
+							],
+							"path": [
+								"userProfile",
+								"getUser"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{UUID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
